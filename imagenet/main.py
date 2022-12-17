@@ -245,11 +245,7 @@ def main_worker(gpu, ngpus_per_node, args):
             transform=trans,
             download=True)
 
-        val_dataset = datasets.CIFAR10(
-            root="/workspace/data",
-            train=True,
-            transform=trans,
-            download=True)[49000:]
+        val_dataset = train_dataset[49000:]
 
         # train_dataset = datasets.ImageFolder(
         #     traindir,
