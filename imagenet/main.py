@@ -245,7 +245,13 @@ def main_worker(gpu, ngpus_per_node, args):
             transform=trans,
             download=True)
 
-        val_dataset = train_dataset[49000:]
+        val_dataset = datasets.CIFAR10(
+            root="/workspace/data",
+            train=True,
+            transform=trans,
+            download=True)
+
+        val_dataset.data = train_dataset.data[:1000]
 
         # train_dataset = datasets.ImageFolder(
         #     traindir,
@@ -420,10 +426,10 @@ def validate(val_loader, model, criterion, args):
     return top1.avg
 
 
-def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
+def save_checkpoint(state, is_best, filename='/worksapce/model/checkpoint.pth.tar'):
     torch.save(state, filename)
     if is_best:
-        shutil.copyfile(filename, 'model_best.pth.tar')
+        shutil.copyfile(filename, '/workspace/model/model_best.pth.tar')
 
 class Summary(Enum):
     NONE = 0
